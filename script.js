@@ -4,8 +4,9 @@ const BASE_URL = "https://swapi.dev/api/";
 let urls = [];
 let endpoints = [];
 let endpoint;
+let collectionsInstances = [];
 
-class People {
+class Person {
   constructor(name, birth_year, height, mass, created) {
     this.name = name;
     this.birth_year = birth_year;
@@ -74,17 +75,51 @@ async function init() {
   createButtons();
 }
 
+function createTable(collectionInstances, table) {
+  let headers = [];
+  let content = [];
+
+  for (key in collectionInstances[0]) {
+    headers.push(key.toUpperCase());
+  }
+
+  content.unshift(headers);
+  collectionInstances.forEach((object) => {
+    let content1 = [];
+    for (values in object) {
+      content1.push(object[values]);
+    }
+    content.push(content1);
+  });
+
+  table.innerHTML = "";
+
+  content.forEach((row) => {
+    const rowElement = document.createElement("tr");
+    for (cellText of row) {
+      const cellElement = document.createElement("td");
+      cellElement.textContent = cellText;
+      cellElement.id = "table-cell";
+      rowElement.appendChild(cellElement);
+    }
+
+    table.appendChild(rowElement);
+  });
+}
+
 async function catchCorrectEndpoint(endpoint) {
   const response = await fetch(`${BASE_URL}${endpoint}`);
   endpointData = await response.json();
-  console.log(endpointData);
+
   switch (endpoint) {
     case "people":
       const peopleInstances = endpointData.results.map(
-        ({ name, birth_year, height, mass, created }) =>
-          new People(name, birth_year, height, mass, created)
+        ({name, birth_year, height, mass, created }) =>
+          new Person(name, birth_year, height, mass, created)
       );
       console.log(peopleInstances);
+      collectionsInstances.push(peopleInstances);
+      createTable(peopleInstances, document.querySelector("table"));
       break;
     case "planets":
       const planetsInstances = endpointData.results.map(
@@ -92,6 +127,9 @@ async function catchCorrectEndpoint(endpoint) {
           new Planet(name, terrain, population, climate, created)
       );
       console.log(planetsInstances);
+      collectionsInstances.push(planetsInstances);
+      createTable(planetsInstances, document.querySelector("table"));
+
       break;
     case "films":
       const filmsInstances = endpointData.results.map(
@@ -99,6 +137,9 @@ async function catchCorrectEndpoint(endpoint) {
           new Film(title, director, producer, release_date, created)
       );
       console.log(filmsInstances);
+      collectionsInstances.push(filmsInstances);
+      createTable(filmsInstances, document.querySelector("table"));
+
       break;
     case "species":
       const speciesInstances = endpointData.results.map(
@@ -106,6 +147,9 @@ async function catchCorrectEndpoint(endpoint) {
           new Species(name, language, designation, classification, created)
       );
       console.log(speciesInstances);
+      collectionsInstances.push(speciesInstances);
+      createTable(speciesInstances, document.querySelector("table"));
+
       break;
     case "vehicles":
       const vehiclesInstances = endpointData.results.map(
@@ -113,6 +157,9 @@ async function catchCorrectEndpoint(endpoint) {
           new Vehicle(name, model, vehicle_class, crew, created)
       );
       console.log(vehiclesInstances);
+      collectionsInstances.push(vehiclesInstances);
+      createTable(vehiclesInstances, document.querySelector("table"));
+
       break;
     case "starships":
       const starshipsInstances = endpointData.results.map(
@@ -120,6 +167,9 @@ async function catchCorrectEndpoint(endpoint) {
           new Starship(name, model, length, crew, created)
       );
       console.log(starshipsInstances);
+      collectionsInstances.push(starshipsInstances);
+      createTable(starshipsInstances, document.querySelector("table"));
+
       break;
   }
 }
