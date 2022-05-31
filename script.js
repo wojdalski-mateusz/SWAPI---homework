@@ -182,7 +182,7 @@ function onClickButton(event) {
 function createButtons() {
   endpoints.forEach((endpoint) => {
     const button = document.createElement("button");
-    document.getElementById("nav-buttons").appendChild(button);
+    document.getElementById("nav-buttons-js").appendChild(button);
     button.innerHTML = endpoint[0].toUpperCase() + endpoint.slice(1);
     button.className = "button";
     button.id = `${endpoint}Btn-js`;
