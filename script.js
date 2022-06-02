@@ -77,34 +77,45 @@ async function init() {
 
 function createTable(collectionInstances, table) {
   let headers = [];
-  let content = [];
+  let rows = [];
+  const tableHead = table.querySelector("thead");
+  const tableBody = table.querySelector("tbody");
 
   for (key in collectionInstances[0]) {
     headers.push(key.toUpperCase());
   }
 
-  content.unshift(headers);
   collectionInstances.forEach((object) => {
-    let content1 = [];
+    let content = [];
     for (values in object) {
-      content1.push(object[values]);
+      content.push(object[values]);
     }
-    content.push(content1);
+    rows.push(content);
   });
 
-  table.innerHTML = "";
+  tableHead.innerHTML = "<tr></tr>";
+  tableBody.innerHTML = "";
 
-  content.forEach((row) => {
+  for (headerText of headers) {
+    const headerElement = document.createElement("th");
+
+    headerElement.textContent = headerText;
+    tableHead.querySelector("tr").appendChild(headerElement);
+  }
+
+  for (const row of rows) {
     const rowElement = document.createElement("tr");
+
     for (cellText of row) {
       const cellElement = document.createElement("td");
+
       cellElement.textContent = cellText;
       cellElement.id = "table-cell";
       rowElement.appendChild(cellElement);
     }
 
-    table.appendChild(rowElement);
-  });
+    tableBody.appendChild(rowElement);
+  }
 }
 
 async function catchCorrectEndpoint(endpoint) {
