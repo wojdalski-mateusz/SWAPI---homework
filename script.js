@@ -85,11 +85,14 @@ function createTable(collectionInstances, table) {
     headers.push(key.toUpperCase());
   }
 
-  collectionInstances.forEach((object) => {
+  headers.unshift("ID");
+
+  collectionInstances.forEach((object, index) => {
     let content = [];
     for (values in object) {
       content.push(object[values]);
     }
+    content.unshift(index + 1);
     rows.push(content);
   });
 
