@@ -12,7 +12,7 @@ class Person {
     this.birth_year = birth_year;
     this.height = height;
     this.mass = mass;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
@@ -22,7 +22,7 @@ class Planet {
     this.terrain = terrain;
     this.population = population;
     this.climate = climate;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
@@ -32,7 +32,7 @@ class Film {
     this.director = director;
     this.producer = producer;
     this.release_date = release_date;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
@@ -42,7 +42,7 @@ class Species {
     this.language = language;
     this.designation = designation;
     this.classification = classification;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
@@ -52,7 +52,7 @@ class Vehicle {
     this.model = model;
     this.vehicle_class = vehicle_class;
     this.crew = crew;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
@@ -62,7 +62,7 @@ class Starship {
     this.model = model;
     this.length = length;
     this.crew = crew;
-    this.created = created;
+    this.created = created.slice(0, 10).split("-").reverse().join("-");
   }
 }
 
