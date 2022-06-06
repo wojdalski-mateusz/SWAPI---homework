@@ -106,19 +106,28 @@ function createTable(collectionInstances, table) {
     tableHead.querySelector("tr").appendChild(headerElement);
   }
 
-  for (const row of rows) {
-    const rowElement = document.createElement("tr");
+   for (const row of rows) {
+     const rowElement = document.createElement("tr");
+     const removeBtn = document.createElement("button");
+     removeBtn.innerText = "Delete";
+     removeBtn.className = "button";
+     removeBtn.id = "removeBtn-js";
+     const showDetailsBtn = document.createElement("button");
+     showDetailsBtn.innerText = "Details";
+     showDetailsBtn.id = "showDetailsBtn-js";
+     showDetailsBtn.className = "button";
 
-    for (cellText of row) {
-      const cellElement = document.createElement("td");
+     for (cellText of row) {
+       const cellElement = document.createElement("td");
 
-      cellElement.textContent = cellText;
-      cellElement.id = "table-cell";
-      rowElement.appendChild(cellElement);
-    }
-
-    tableBody.appendChild(rowElement);
-  }
+       cellElement.textContent = cellText;
+       cellElement.id = "table-cell";
+       rowElement.appendChild(cellElement);
+     }
+     rowElement.appendChild(removeBtn);
+     rowElement.appendChild(showDetailsBtn);
+     tableBody.appendChild(rowElement);
+   }
 }
 
 async function catchCorrectEndpoint(endpoint) {
