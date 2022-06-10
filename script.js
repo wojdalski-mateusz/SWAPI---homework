@@ -127,6 +127,8 @@ function createTable(collectionInstances, table) {
      rowElement.appendChild(removeBtn);
      rowElement.appendChild(showDetailsBtn);
      tableBody.appendChild(rowElement);
+
+     removeBtn.addEventListener("click", deleteRow);
    }
 }
 
@@ -213,3 +215,11 @@ function createButtons() {
     button.addEventListener("click", onClickButton);
   });
 }
+
+function deleteRow(row) {
+  console.log("Usunąłeś wiersz");
+
+  const deletedRow = document.getElementById("tbody-js").deleteRow(row);
+  console.log(deletedRow);
+}
+
