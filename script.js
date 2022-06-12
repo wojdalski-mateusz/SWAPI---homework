@@ -6,6 +6,7 @@ let endpointData = {};
 let endpoints = [];
 let endpoint;
 let nextPageUrl = "";
+let prevPageUrl = "";
 let collectionName;
 let fetchUrl;
 
@@ -13,6 +14,7 @@ const nextPageBtn = document.getElementById("nextPageBtn-js");
 const prevPageBtn = document.getElementById("prevPageBtn-js");
 
 nextPageBtn.addEventListener("click", nextPage);
+prevPageBtn.addEventListener("click", prevPage);
 
 class Person {
   constructor(name, birth_year, height, mass, created) {
@@ -145,9 +147,11 @@ async function catchCorrectEndpoint(endpoint, url) {
   const response = await fetch(fetchUrl);
   endpointData = await response.json();
   nextPageUrl = endpointData.next;
+  prevPageUrl = endpointData.previous;
   console.log("endpointData: ", endpointData);
   console.log("fetchUrl: ", fetchUrl);
   console.log("nextPageUrl: ", nextPageUrl);
+  console.log("prevPageUrl: ", prevPageUrl);
 
   switch (endpoint) {
     case "people":
@@ -233,5 +237,11 @@ function deleteRow(row) {
 async function nextPage() {
   if (nextPageUrl) {
     await catchCorrectEndpoint(collectionName, nextPageUrl);
+  }
+}
+
+async function prevPage(){
+  if(prevPageUrl){
+    await catchCorrectEndpoint(collectionName, prevPageUrl);
   }
 }
