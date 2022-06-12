@@ -116,30 +116,30 @@ function createTable(collectionInstances, table) {
     tableHead.querySelector("tr").appendChild(headerElement);
   }
 
-   for (const row of rows) {
-     const rowElement = document.createElement("tr");
-     const removeBtn = document.createElement("button");
-     removeBtn.innerText = "Delete";
-     removeBtn.className = "button";
-     removeBtn.id = "removeBtn-js";
-     const showDetailsBtn = document.createElement("button");
-     showDetailsBtn.innerText = "Details";
-     showDetailsBtn.id = "showDetailsBtn-js";
-     showDetailsBtn.className = "button";
+  for (const row of rows) {
+    const rowElement = document.createElement("tr");
+    const removeBtn = document.createElement("button");
+    removeBtn.innerText = "Delete";
+    removeBtn.className = "button";
+    removeBtn.id = "removeBtn-js";
+    const showDetailsBtn = document.createElement("button");
+    showDetailsBtn.innerText = "Details";
+    showDetailsBtn.id = "showDetailsBtn-js";
+    showDetailsBtn.className = "button";
 
-     for (cellText of row) {
-       const cellElement = document.createElement("td");
+    for (cellText of row) {
+      const cellElement = document.createElement("td");
 
-       cellElement.textContent = cellText;
-       cellElement.id = "table-cell";
-       rowElement.appendChild(cellElement);
-     }
-     rowElement.appendChild(removeBtn);
-     rowElement.appendChild(showDetailsBtn);
-     tableBody.appendChild(rowElement);
+      cellElement.textContent = cellText;
+      cellElement.id = "table-cell";
+      rowElement.appendChild(cellElement);
+    }
+    rowElement.appendChild(removeBtn);
+    rowElement.appendChild(showDetailsBtn);
+    tableBody.appendChild(rowElement);
 
-     removeBtn.addEventListener("click", deleteRow);
-   }
+    removeBtn.addEventListener("click", deleteRow);
+  }
 }
 
 async function catchCorrectEndpoint(endpoint, url) {
@@ -227,11 +227,11 @@ function createButtons() {
   });
 }
 
-function deleteRow(row) {
+function deleteRow(e) {
   console.log("Usunąłeś wiersz");
 
-  const deletedRow = document.getElementById("tbody-js").deleteRow(row);
-  console.log(deletedRow);
+  const btn = e.target;
+  btn.closest("tr").remove();
 }
 
 async function nextPage() {
@@ -240,8 +240,8 @@ async function nextPage() {
   }
 }
 
-async function prevPage(){
-  if(prevPageUrl){
+async function prevPage() {
+  if (prevPageUrl) {
     await catchCorrectEndpoint(collectionName, prevPageUrl);
   }
 }
