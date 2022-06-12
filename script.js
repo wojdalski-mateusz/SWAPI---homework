@@ -234,11 +234,27 @@ function createButtons() {
   });
 }
 
-function deleteRow(e) {
-  console.log("Usunąłeś wiersz");
+// function deleteRow(e) {
+//   console.log("Usunąłeś wiersz");
 
-  const btn = e.target;
-  btn.closest("tr").remove();
+//   const btn = e.target;
+//   btn.closest("tr").remove();
+// }
+
+function deleteRow(e) {
+  swal({
+    title: "Are you sure?",
+    icon: "warning",
+    buttons: ["NO", "YES"],
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      const btn = e.target;
+      btn.closest("tr").remove();
+    } else {
+      return;
+    }
+  });
 }
 
 async function nextPage() {
