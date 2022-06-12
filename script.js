@@ -17,7 +17,8 @@ nextPageBtn.addEventListener("click", nextPage);
 prevPageBtn.addEventListener("click", prevPage);
 
 class Person {
-  constructor(name, birth_year, height, mass, created) {
+  constructor(url, name, birth_year, height, mass, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.name = name;
     this.birth_year = birth_year;
     this.height = height;
@@ -27,7 +28,8 @@ class Person {
 }
 
 class Planet {
-  constructor(name, terrain, population, climate, created) {
+  constructor(url, name, terrain, population, climate, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.name = name;
     this.terrain = terrain;
     this.population = population;
@@ -37,7 +39,8 @@ class Planet {
 }
 
 class Film {
-  constructor(title, director, producer, release_date, created) {
+  constructor(url, title, director, producer, release_date, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.title = title;
     this.director = director;
     this.producer = producer;
@@ -47,7 +50,8 @@ class Film {
 }
 
 class Species {
-  constructor(name, language, designation, classification, created) {
+  constructor(url, name, language, designation, classification, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.name = name;
     this.language = language;
     this.designation = designation;
@@ -57,7 +61,8 @@ class Species {
 }
 
 class Vehicle {
-  constructor(name, model, vehicle_class, crew, created) {
+  constructor(url, name, model, vehicle_class, crew, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.name = name;
     this.model = model;
     this.vehicle_class = vehicle_class;
@@ -67,7 +72,8 @@ class Vehicle {
 }
 
 class Starship {
-  constructor(name, model, length, crew, created) {
+  constructor(url, name, model, length, crew, created) {
+    this.url = url.split("/").reverse().slice(1, 2).join();
     this.name = name;
     this.model = model;
     this.length = length;
@@ -95,14 +101,15 @@ function createTable(collectionInstances, table) {
     headers.push(key.toUpperCase());
   }
 
-  headers.unshift("ID");
+  //headers.unshift("ID");
+  headers[0] = "ID";
 
   collectionInstances.forEach((object, index) => {
     let content = [];
     for (values in object) {
       content.push(object[values]);
     }
-    content.unshift(index + 1);
+    //content.unshift(index + 1);
     rows.push(content);
   });
 
@@ -156,16 +163,16 @@ async function catchCorrectEndpoint(endpoint, url) {
   switch (endpoint) {
     case "people":
       const peopleInstances = endpointData.results.map(
-        ({ name, birth_year, height, mass, created }) =>
-          new Person(name, birth_year, height, mass, created)
+        ({ url, name, birth_year, height, mass, created }) =>
+          new Person(url, name, birth_year, height, mass, created)
       );
       console.log(peopleInstances);
       createTable(peopleInstances, document.querySelector("table"));
       break;
     case "planets":
       const planetsInstances = endpointData.results.map(
-        ({ name, terrain, population, climate, created }) =>
-          new Planet(name, terrain, population, climate, created)
+        ({ url, name, terrain, population, climate, created }) =>
+          new Planet(url, name, terrain, population, climate, created)
       );
       console.log(planetsInstances);
       createTable(planetsInstances, document.querySelector("table"));
@@ -173,8 +180,8 @@ async function catchCorrectEndpoint(endpoint, url) {
       break;
     case "films":
       const filmsInstances = endpointData.results.map(
-        ({ title, director, producer, release_date, created }) =>
-          new Film(title, director, producer, release_date, created)
+        ({ url, title, director, producer, release_date, created }) =>
+          new Film(url, title, director, producer, release_date, created)
       );
       console.log(filmsInstances);
       createTable(filmsInstances, document.querySelector("table"));
@@ -182,8 +189,8 @@ async function catchCorrectEndpoint(endpoint, url) {
       break;
     case "species":
       const speciesInstances = endpointData.results.map(
-        ({ name, language, designation, classification, created }) =>
-          new Species(name, language, designation, classification, created)
+        ({ url, name, language, designation, classification, created }) =>
+          new Species(url, name, language, designation, classification, created)
       );
       console.log(speciesInstances);
       createTable(speciesInstances, document.querySelector("table"));
@@ -191,8 +198,8 @@ async function catchCorrectEndpoint(endpoint, url) {
       break;
     case "vehicles":
       const vehiclesInstances = endpointData.results.map(
-        ({ name, model, vehicle_class, crew, created }) =>
-          new Vehicle(name, model, vehicle_class, crew, created)
+        ({ url, name, model, vehicle_class, crew, created }) =>
+          new Vehicle(url, name, model, vehicle_class, crew, created)
       );
       console.log(vehiclesInstances);
       createTable(vehiclesInstances, document.querySelector("table"));
@@ -200,8 +207,8 @@ async function catchCorrectEndpoint(endpoint, url) {
       break;
     case "starships":
       const starshipsInstances = endpointData.results.map(
-        ({ name, model, length, crew, created }) =>
-          new Starship(name, model, length, crew, created)
+        ({ url, name, model, length, crew, created }) =>
+          new Starship(url, name, model, length, crew, created)
       );
       console.log(starshipsInstances);
       createTable(starshipsInstances, document.querySelector("table"));
