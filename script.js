@@ -2,9 +2,17 @@ window.onload = init;
 
 const BASE_URL = "https://swapi.dev/api/";
 let urls = [];
+let endpointData = {};
 let endpoints = [];
 let endpoint;
-let collectionsInstances = [];
+let nextPageUrl = "";
+let collectionName;
+let fetchUrl;
+
+const nextPageBtn = document.getElementById("nextPageBtn-js");
+const prevPageBtn = document.getElementById("prevPageBtn-js");
+
+nextPageBtn.addEventListener("click", nextPage);
 
 class Person {
   constructor(name, birth_year, height, mass, created) {
@@ -132,18 +140,22 @@ function createTable(collectionInstances, table) {
    }
 }
 
-async function catchCorrectEndpoint(endpoint) {
-  const response = await fetch(`${BASE_URL}${endpoint}`);
+async function catchCorrectEndpoint(endpoint, url) {
+  fetchUrl = url ? url : `${BASE_URL}${endpoint}`;
+  const response = await fetch(fetchUrl);
   endpointData = await response.json();
+  nextPageUrl = endpointData.next;
+  console.log("endpointData: ", endpointData);
+  console.log("fetchUrl: ", fetchUrl);
+  console.log("nextPageUrl: ", nextPageUrl);
 
   switch (endpoint) {
     case "people":
       const peopleInstances = endpointData.results.map(
-        ({name, birth_year, height, mass, created }) =>
+        ({ name, birth_year, height, mass, created }) =>
           new Person(name, birth_year, height, mass, created)
       );
       console.log(peopleInstances);
-      collectionsInstances.push(peopleInstances);
       createTable(peopleInstances, document.querySelector("table"));
       break;
     case "planets":
@@ -152,7 +164,6 @@ async function catchCorrectEndpoint(endpoint) {
           new Planet(name, terrain, population, climate, created)
       );
       console.log(planetsInstances);
-      collectionsInstances.push(planetsInstances);
       createTable(planetsInstances, document.querySelector("table"));
 
       break;
@@ -162,7 +173,6 @@ async function catchCorrectEndpoint(endpoint) {
           new Film(title, director, producer, release_date, created)
       );
       console.log(filmsInstances);
-      collectionsInstances.push(filmsInstances);
       createTable(filmsInstances, document.querySelector("table"));
 
       break;
@@ -172,7 +182,6 @@ async function catchCorrectEndpoint(endpoint) {
           new Species(name, language, designation, classification, created)
       );
       console.log(speciesInstances);
-      collectionsInstances.push(speciesInstances);
       createTable(speciesInstances, document.querySelector("table"));
 
       break;
@@ -182,7 +191,6 @@ async function catchCorrectEndpoint(endpoint) {
           new Vehicle(name, model, vehicle_class, crew, created)
       );
       console.log(vehiclesInstances);
-      collectionsInstances.push(vehiclesInstances);
       createTable(vehiclesInstances, document.querySelector("table"));
 
       break;
@@ -192,7 +200,6 @@ async function catchCorrectEndpoint(endpoint) {
           new Starship(name, model, length, crew, created)
       );
       console.log(starshipsInstances);
-      collectionsInstances.push(starshipsInstances);
       createTable(starshipsInstances, document.querySelector("table"));
 
       break;
@@ -200,7 +207,7 @@ async function catchCorrectEndpoint(endpoint) {
 }
 
 function onClickButton(event) {
-  const collectionName = event.target.innerHTML.toLowerCase();
+  collectionName = event.target.innerHTML.toLowerCase();
   catchCorrectEndpoint(collectionName);
 }
 
@@ -223,3 +230,8 @@ function deleteRow(row) {
   console.log(deletedRow);
 }
 
+async function nextPage() {
+  if (nextPageUrl) {
+    await catchCorrectEndpoint(collectionName, nextPageUrl);
+  }
+}
